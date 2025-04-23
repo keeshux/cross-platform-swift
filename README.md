@@ -1,6 +1,6 @@
 Simple replacements for Combine subjects with AsyncStream and Swift 6 Concurrency.
 
-This is an excerpt from my (ongoing) series about Cross-platform Swift:
+This is an excerpt from my (ongoing) series about cross-platform Swift:
 
 https://davidederosa.com/cross-platform-swift/combine/
 

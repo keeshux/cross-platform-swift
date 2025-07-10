@@ -51,7 +51,7 @@ struct CInteropTests {
     @Test
     func accumulate() {
         // it's easier to match C type
-//        let v: [Int] = [10, 20, 30, 40]
+        //        let v: [Int] = [10, 20, 30, 40]
         let v: [Int32] = [10, 20, 30, 40]
         v.withUnsafeBufferPointer {
             #expect(cps_accumulate($0.baseAddress, v.count) == 100)
@@ -78,6 +78,7 @@ struct CInteropTests {
         #expect(Int(sut.num) + Int(sut.ch) == 150)
     }
 
+    // the struct is entirely managed by Swift
     @Test
     func complexStructs() {
         let v: [Int32] = [10, 20, 30, 40]
@@ -98,7 +99,7 @@ struct CInteropTests {
             // apply the function, that returns a heap-allocated C string
             let cString = title.withCString {
                 sut.title = $0
-                return cps_accumulate_string(&sut)
+                return cps_complex_accumulate_string(&sut)
             }
             guard let cString else {
                 fatalError()
@@ -109,6 +110,32 @@ struct CInteropTests {
             cString.deallocate()
             return string
         }
+        #expect(string == "Hello: 100")
+    }
+
+    // the internal struct lifetime is self-contained in C, only the
+    // returned objects are managed by Swift
+    @Test
+    func opaqueStructs() {
+        let v: [Int32] = [10, 20, 30, 40]
+        let title = "Hello"
+        let sut = v.withUnsafeBufferPointer { pv in
+            title.withCString {
+                cps_opaque_create(
+                    $0,
+                    pv.baseAddress,
+                    pv.count,
+                    cps_accumulate
+                )
+            }
+        }
+        guard let cString = cps_opaque_accumulate_string(sut) else {
+            fatalError()
+        }
+        cps_opaque_destroy(sut)
+
+        let string = String(cString: cString)
+        cString.deallocate()
         #expect(string == "Hello: 100")
     }
 }

@@ -8,4 +8,11 @@ The series is about how I'm porting [Passepartout](https://github.com/passeparto
 
 ## SubjectStreams
 
-Simple replacements for Combine subjects with AsyncStream and Swift 6 Concurrency. The motivations are described in [this article](https://davidederosa.com/cross-platform-swift/combine/).
+Simple replacements for Combine subjects with AsyncStream and Swift 6 Concurrency. The motivations are described in [this article][blog-combine].
+
+## C Interoperability
+
+Examples of typical situations involved in Swift/C interop. Showcase the use of opaque pointers. Read [these articles][blog-c-interop] for more insight.
+
+[blog-combine]: https://davidederosa.com/cross-platform-swift/combine/
+[blog-c-interop]: https://davidederosa.com/cross-platform-swift/c-interop-part-one/

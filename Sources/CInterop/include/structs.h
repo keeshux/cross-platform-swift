@@ -39,8 +39,9 @@ typedef struct {
 
 const char *cps_complex_accumulate_string(const cps_complex_struct *ptr);
 
-// opaque pointer to the same complex struct, now hidden by C
+// opaque pointer to a similar complex struct, now hidden by C
 typedef struct _cps_opaque_complex_struct *cps_opaque_struct;
+
 cps_opaque_struct cps_opaque_create(const char *title,
                                     const int *nums,
                                     size_t nums_n,

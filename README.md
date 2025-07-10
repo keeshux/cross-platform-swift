@@ -12,7 +12,7 @@ Simple replacements for Combine subjects with AsyncStream and Swift 6 Concurrenc
 
 ## C Interoperability
 
-Examples of typical situations involved in Swift/C interop. Showcase the use of opaque pointers. Read [these articles][blog-c-interop] for more insight.
+Examples of typical situations involved in Swift/C interop. Showcase the use of opaque pointers. Read [these articles][blog-c-interop] for more insights.
 
 [blog-combine]: https://davidederosa.com/cross-platform-swift/combine/
 [blog-c-interop]: https://davidederosa.com/cross-platform-swift/c-interop-part-one/

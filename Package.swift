@@ -20,7 +20,14 @@ let package = Package(
     ],
     targets: [
         .target(
+            name: "CInterop"
+        ),
+        .target(
             name: "SubjectStreams"
+        ),
+        .testTarget(
+            name: "CInteropTests",
+            dependencies: ["CInterop"]
         ),
         .testTarget(
             name: "SubjectStreamsTests",

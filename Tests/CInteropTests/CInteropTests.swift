@@ -23,6 +23,7 @@
 //
 
 import CInterop
+import Foundation
 import Testing
 
 //
@@ -49,26 +50,65 @@ struct CInteropTests {
 
     @Test
     func accumulate() {
-        // the array type DOES make a difference, because Int is typically 64-bit
+        // it's easier to match C type
 //        let v: [Int] = [10, 20, 30, 40]
         let v: [Int32] = [10, 20, 30, 40]
-        v.withUnsafeBytes {
-            // the bound type must match declaration
-            let pv = $0.bindMemory(to: Int32.self)
-            #expect(cps_accumulate(pv.baseAddress, v.count) == 100)
+        v.withUnsafeBufferPointer {
+            #expect(cps_accumulate($0.baseAddress, v.count) == 100)
         }
     }
 
     @Test
     func accumulateAndStore() {
+        // trying to use Int here will give you decent headaches
         let v: [Int32] = [10, 20, 30, 40]
-        // trying to use Int here will give you legendary headaches
 //        var result: Int = 0
         var result: Int32 = 0
-        v.withUnsafeBytes {
-            let pv = $0.bindMemory(to: Int32.self)
-            cps_accumulate_and_store(pv.baseAddress, v.count, &result)
+        v.withUnsafeBufferPointer {
+            cps_accumulate_and_store($0.baseAddress, v.count, &result)
         }
         #expect(result == 100)
+    }
+
+    @Test
+    func basicStructs() {
+        var sut = cps_basic_struct()
+        sut.num = 100
+        sut.ch = 50
+        #expect(Int(sut.num) + Int(sut.ch) == 150)
+    }
+
+    @Test
+    func complexStructs() {
+        let v: [Int32] = [10, 20, 30, 40]
+        let title = "Hello"
+        let string = v.withUnsafeBufferPointer { pv in
+            var sut = cps_complex_struct()
+
+            // set the function pointer, and C functions are not Swift closures
+            sut.fun = cps_accumulate
+
+            // copy the Swift vector to the nums C array
+            _ = withUnsafeMutablePointer(to: &sut.nums) {
+                $0.withMemoryRebound(to: Int32.self, capacity: 8) { numsPtr in
+                    memcpy(numsPtr, pv.baseAddress, 4 * v.count) // 4 = sizeof(Int32)
+                }
+            }
+
+            // apply the function, that returns a heap-allocated C string
+            let cString = title.withCString {
+                sut.title = $0
+                return cps_accumulate_string(&sut)
+            }
+            guard let cString else {
+                fatalError()
+            }
+
+            // convert the C string to a Swift string, remember to deallocate
+            let string = String(cString: cString)
+            cString.deallocate()
+            return string
+        }
+        #expect(string == "Hello: 100")
     }
 }

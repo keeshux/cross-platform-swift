@@ -22,20 +22,19 @@
 // SOFTWARE.
 //
 
-#include "primitives.h"
+#pragma once
 
-int cps_add(int a, int b) {
-    return a + b;
-}
+typedef struct {
+    int num;
+    char ch;
+} cps_basic_struct;
 
-int cps_accumulate(const int *v, size_t n) {
-    int sum = 0;
-    for (int i = 0; i < n; ++i) {
-        sum += v[i];
-    }
-    return sum;
-}
+typedef struct {
+    const char *title;
+    int nums[8];
+    int (*fun)(const int *, size_t);
+} cps_complex_struct;
 
-void cps_accumulate_and_store(const int *v, size_t n, int *result) {
-    *result = cps_accumulate(v, n);
-}
+const char *cps_accumulate_string_complex(const cps_complex_struct *ptr);
+
+typedef struct cps_opaque_struct cps_opaque_struct;

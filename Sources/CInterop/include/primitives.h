@@ -22,6 +22,8 @@
 // SOFTWARE.
 //
 
+#pragma once
+
 #include <stdint.h>
 
 // primitive types

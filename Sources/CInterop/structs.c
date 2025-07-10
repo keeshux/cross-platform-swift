@@ -22,20 +22,18 @@
 // SOFTWARE.
 //
 
-#include "primitives.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include "structs.h"
 
-int cps_add(int a, int b) {
-    return a + b;
-}
+// prints the title followed by the result of the func applied
+// to the nums vector
+const char *cps_accumulate_string_complex(const cps_complex_struct *ptr) {
+    const int result = ptr->fun(ptr->nums, sizeof(ptr->nums) / sizeof(int));
 
-int cps_accumulate(const int *v, size_t n) {
-    int sum = 0;
-    for (int i = 0; i < n; ++i) {
-        sum += v[i];
-    }
-    return sum;
-}
-
-void cps_accumulate_and_store(const int *v, size_t n, int *result) {
-    *result = cps_accumulate(v, n);
+    // we return a fixed-size string for the sole purpose
+    // of the tutorial, but this is POOR practice
+    char *buf = (char *)calloc(1, 100);
+    snprintf(buf, 100, "%s: %d", ptr->title, result);
+    return buf;
 }

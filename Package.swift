@@ -6,9 +6,9 @@ import PackageDescription
 let package = Package(
     name: "cross-platform-swift",
     platforms: [
-        .iOS(.v13),
-        .macOS(.v10_15),
-        .tvOS(.v13),
+        .iOS(.v17),
+        .macOS(.v13),
+        .tvOS(.v17),
         .watchOS(.v6),
         .visionOS(.v1)
     ],

@@ -10,6 +10,27 @@ enum SlowError: Int, Error {
     case unknown = 1000
 }
 
+enum EventCode: Int, CaseIterable {
+    case one = 1
+    case two
+    case three
+}
+
+@_cdecl("swift_start_events_emitter")
+public func swiftStartEventsEmitter(
+    ctx: UnsafeMutableRawPointer?,
+    callback: (@Sendable @convention(c) (UnsafeMutableRawPointer?, Int) -> Void)?
+) {
+    nonisolated(unsafe) let unsafeCtx = ctx
+    Task { @Sendable in
+        while true {
+            guard let randomEvent = EventCode.allCases.randomElement() else { continue }
+            callback?(unsafeCtx, randomEvent.rawValue)
+            try await Task.sleep(for: .milliseconds(500))
+        }
+    }
+}
+
 func swiftSlowResult() async throws -> Int {
     100
 }
@@ -18,7 +39,7 @@ func swiftSlowResult() async throws -> Int {
 public func swiftSlowResultWrapper(
     simulatingErrorCode: Int,
     ctx: UnsafeMutableRawPointer?,
-    _ completion: @escaping @Sendable @convention(c) (UnsafeMutableRawPointer?, Int, Int) -> Void
+    completion: @Sendable @convention(c) (UnsafeMutableRawPointer?, Int, Int) -> Void
 ) -> Void {
     nonisolated(unsafe) let unsafeCtx = ctx
     Task { @Sendable in

@@ -13,7 +13,13 @@ typedef struct {
     int initial_value;
     void (*perform)(int);
     void (*report_failure)(slow_error);
+    void (*on_event)(int);
 } complex_object;
+
+static void my_event_callback(void *ctx, int event_code) {
+    complex_object *obj = (complex_object *)ctx;
+    obj->on_event(event_code);
+}
 
 static void my_result_callback(void *ctx, int result, slow_error error_code) {
     complex_object *obj = (complex_object *)ctx;
@@ -41,6 +47,10 @@ void invoke_swift_async_function(complex_object *obj) {
 //    swift_slow_result(slow_error_foo, obj, my_result_callback);
 }
 
+void on_event(int event_code) {
+    printf("Event received with code: %d\n", event_code);
+}
+
 void perform(int result) {
     printf("Perform operation with result %d\n", result);
 }
@@ -55,6 +65,12 @@ int main() {
     obj->initial_value = 50;
     obj->perform = perform;
     obj->report_failure = report_failure;
+    obj->on_event = on_event;
+
+    /* Emit periodic events. */
+    swift_start_events_emitter(obj, my_event_callback);
+    sleep(3);
+
     invoke_swift_async_function(obj);
     /* Yield for async callback to trigger. */
     sleep(1);

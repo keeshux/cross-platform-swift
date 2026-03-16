@@ -16,12 +16,13 @@ Simple replacements for Combine subjects with AsyncStream and Swift 6 Concurrenc
 
 Examples of typical situations involved in Swift/C interop. Showcase the use of opaque pointers. Read [these articles][blog-c-interop] for more insights.
 
-[blog-combine]: https://davidederosa.com/cross-platform-swift/combine/
-[blog-c-interop]: https://davidederosa.com/cross-platform-swift/c-interop-part-one/
-
 ### [Simple ABI][samples-simple-abi]
 
-Patterns to expose a C ABI from a Swift library to a non-Swift application.
+Patterns to expose a C ABI from a Swift library to a non-Swift application. Read [the articles about integration][blog-integration].
+
+[blog-combine]: https://davidederosa.com/cross-platform-swift/combine/
+[blog-c-interop]: https://davidederosa.com/cross-platform-swift/c-interop-part-one/
+[blog-integration]: https://davidederosa.com/cross-platform-swift/integration-part-two/
 
 [samples-subject-streams]: https://github.com/keeshux/cross-platform-swift/tree/master/Sources/SubjectStreams
 [samples-c-interop]: https://github.com/keeshux/cross-platform-swift/tree/master/Sources/CInterop

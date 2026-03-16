@@ -15,10 +15,21 @@ let package = Package(
     products: [
         .library(
             name: "cross-platform-swift",
-            targets: ["SubjectStreams"]
+            targets: [
+                "CInterop",
+                "SimpleABI",
+                "SubjectStreams"
+            ]
         )
     ],
     targets: [
+        .target(
+            name: "SimpleABI"
+        ),
+        .executableTarget(
+            name: "SimpleABIConsumer_C",
+            dependencies: ["SimpleABI"]
+        ),
         .target(
             name: "CInterop"
         ),

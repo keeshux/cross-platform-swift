@@ -16,3 +16,7 @@ Examples of typical situations involved in Swift/C interop. Showcase the use of 
 
 [blog-combine]: https://davidederosa.com/cross-platform-swift/combine/
 [blog-c-interop]: https://davidederosa.com/cross-platform-swift/c-interop-part-one/
+
+## ABI
+
+Patterns to expose a C ABI from a Swift library to a non-Swift application.

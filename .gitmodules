@@ -1,0 +1,3 @@
+[submodule "swift-android-app/app/src/main/cpp/swift-cmake-toolchains"]
+	path = simple-android-app/app/src/main/cpp/swift-cmake-toolchains
+	url = git@github.com:keeshux/swift-cmake-toolchains.git

@@ -7,8 +7,8 @@ project(SimpleLibrary LANGUAGES C)
 set(CMAKE_C_FLAGS "-W -Wall -Werror -pedantic")
 
 # Define the Swift library
-include("${CMAKE_CURRENT_SOURCE_DIR}/swift-cmake-toolchains/swift-android-env.cmake")
-add_swift_target(SimpleLibrary ${CMAKE_CURRENT_SOURCE_DIR}/simple-library)
+include("${CMAKE_CURRENT_SOURCE_DIR}/swift-cmake-toolchains/swift-macros.cmake")
+add_swift_library(SimpleLibrary ${CMAKE_CURRENT_SOURCE_DIR}/simple-library)
 
 # Embed in wrapper
 add_library(SimpleLibraryWrapper SHARED wrapper.c)
@@ -21,7 +21,4 @@ add_custom_command(TARGET SimpleLibraryWrapper POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_if_different
             "$<TARGET_FILE:SimpleLibrary>"
             "$<TARGET_FILE_DIR:SimpleLibraryWrapper>/$<TARGET_FILE_NAME:SimpleLibrary>"
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different
-            "$<TARGET_FILE:${SWIFT_ANDROID_CXX_SHARED_TARGET}>"
-            "$<TARGET_FILE_DIR:SimpleLibraryWrapper>/$<TARGET_FILE_NAME:${SWIFT_ANDROID_CXX_SHARED_TARGET}>"
 )

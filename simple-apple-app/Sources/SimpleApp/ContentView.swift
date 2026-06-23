@@ -12,7 +12,11 @@ struct ContentView: View {
     var body: some View {
         Text(greeting)
             .task {
-                greeting = Greeting.shared.json()
+                do {
+                    greeting = try Greeting.shared.json()
+                } catch {
+                    greeting = error.localizedDescription
+                }
             }
     }
 }

@@ -22,6 +22,12 @@ android {
             abiFilters += listOf("arm64-v8a")
 //            abiFilters += listOf("x86_64")
         }
+        externalNativeBuild {
+            cmake {
+                arguments += listOf("-DSWIFT_VERSION=6.3.1")
+                arguments += listOf("-DANDROID_STL=c++_shared")
+            }
+        }
     }
 
     externalNativeBuild {
